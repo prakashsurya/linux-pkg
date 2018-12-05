@@ -4,7 +4,3 @@
 # here as this will ensure they are installed instead of their Ubuntu
 # counterparts.
 #
-
-cloud-init
-python-rtslib-fb
-targetcli-fb

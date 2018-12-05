@@ -87,10 +87,8 @@ function logmust() {
 # scripts on their work system and changing its configuration.
 #
 function check_running_system() {
-	if [[ "$DISABLE_SYSTEM_CHECK" == "true" ]]; then
-		echo "WARNING: System check disabled."
-		return 0
-	fi
+	echo "WARNING: System check disabled."
+	return 0
 
 	if ! (command -v lsb_release >/dev/null &&
 		[[ $(lsb_release -cs) == "bionic" ]]); then
