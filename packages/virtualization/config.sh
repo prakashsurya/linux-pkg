@@ -72,7 +72,13 @@ function build() {
 	# Build the virtualization package
 	#
 	logmust cd "$WORKDIR/repo/appliance"
-	logmust ant -Ddockerize=true -DbuildJni=true all package
+	if [[ -n "$DELPHIX_RELEASE_VERSION" ]]; then
+		logmust ant -Ddockerize=true -DbuildJni=true \
+			-DhotfixGenDlpxVersion="$DELPHIX_RELEASE_VERSION" \
+			all package
+	else
+		logmust ant -Ddockerize=true -DbuildJni=true all package
+	fi
 
 	#
 	# Publish the virtualization package artifacts
@@ -96,10 +102,15 @@ function build() {
 	# Build the "toolkit-devkit" artifacts
 	#
 	logmust cd "$WORKDIR/repo/appliance/toolkit"
-	# TODO: set version.number correctly
-	logmust ant \
-		"-Dversion.number=$(date --utc +%Y-%m-%d-%H-%m)" \
-		toolkit-devkit
+	if [[ -n "$DELPHIX_RELEASE_VERSION" ]]; then
+		logmust ant \
+			-Dversion.number="$DELPHIX_RELEASE_VERSION" \
+			toolkit-devkit
+	else
+		logmust ant \
+			"-Dversion.number=$(date --utc +%Y-%m-%d-%H-%m)" \
+			toolkit-devkit
+	fi
 
 	#
 	# Publish the "toolkit-devkit" artifacts
